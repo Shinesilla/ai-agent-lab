@@ -1,0 +1,7 @@
+# Multi-Agent State Tracking
+
+**Problem:** Reliably carrying design intent across separate agent context windows is a common failure point in multi-agent workflows. Each window has no memory of a prior window's reasoning, so decisions can be silently reinterpreted or dropped between hops — the third agent in a chain may build on a misunderstanding of what the first agent actually decided.
+
+**Approach:** A lightweight state-tracking artifact ("cards") was used to pass a design forward explicitly across three separate agent sessions: one session defined the spec, a second implemented it, a third added governance rules on top. Each hop's output was checked by an independent agent before being accepted, rather than trusting the implementing agent's own account of what it built. The goal was to test whether an explicit written handoff plus an independent review step is enough to preserve intent without a human re-explaining the spec at every hop.
+
+**Result:** The three-hop handoff preserved intent well enough that the governance rules landed without contradicting the original design. The independent review step caught one real defect — a naming collision between two pieces of the mechanism — at review time, before it shipped, rather than after. The main finding: an explicit handoff artifact combined with a review step that doesn't just trust the implementing agent's report is enough to catch drift that would otherwise only surface once the system was already in use.
