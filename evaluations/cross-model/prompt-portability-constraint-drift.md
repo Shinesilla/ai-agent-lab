@@ -1,0 +1,7 @@
+# Prompt Portability: Constraint Drift Across Models
+
+**Problem:** A prompt authored and validated against Claude — with hard formatting constraints (a mandatory checkpoint structure, an explicit "no commentary between sections" rule, and a ban on exposing intermediate reasoning in the final output) — was assumed to be portable: same wording, same task, different model. That assumption was never actually tested.
+
+**Approach:** Ran the identical, unmodified prompt against Qwen 2.5 on the same class of task, then compared the output against the prompt's own stated constraints — not against output quality, but strictly against instruction-following: did it keep the required structure, did it suppress narration in the final answer, did it respect the checkpoint gate before proceeding.
+
+**Result:** Qwen did not reject or misunderstand the task, but it did not hold the format contract. Reasoning that the constraint explicitly required to be suno process narration in final output") leaked directly into what was presented as the final deliverable — visible self-correction, hedging, and step-by-step narration appeared inside the supposedly clontent was extracted correctly; the packaging discipline was not. Finding: a prompt's wording being identical across models does not mean its behavioral constraints transfer — instruction-followining rules needs to be verified per model, not assumed from one validated case.
